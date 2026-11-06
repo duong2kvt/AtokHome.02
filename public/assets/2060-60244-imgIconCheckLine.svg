@@ -1,0 +1,15 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon-check-line" clip-path="url(#clip0_0_369)">
+<path id="Vector" d="M12.25 4.32772L6.19963 10.3337C5.97219 10.5594 5.60506 10.5594 5.3776 10.3337L1.75 6.73397L2.57202 5.90625L5.78833 9.09749L11.428 3.5L12.25 4.32772Z" fill="black" fill-opacity="0.86"/>
+<mask id="mask0_0_369" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="-1" y="-2" width="12" height="9">
+<path id="Check &#226;&#128;&#162; draw-on reveal" d="M0.161133 2.32031L3.78845 5.92006L9.83911 -0.0859375" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" stroke="white"/>
+</mask>
+<g mask="url(#mask0_0_369)">
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_369">
+<rect width="14" height="14" fill="white"/>
+</clipPath>
+</defs>
+</svg>

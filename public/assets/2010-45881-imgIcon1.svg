@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="87.1595" height="87.1595" viewBox="0 0 87.1595 87.1595" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-8.99087" y="-8.99087" width="105.141" height="105.141"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(4.5px);clip-path:url(#bgblur_0_0_759_clip_path);height:100%;width:100%"></div></foreignObject><g id="Icon" data-figma-bg-blur-radius="8.99087">
+<rect width="87.1595" height="87.1595" rx="43.5798" fill="#EFEFEF" fill-opacity="0.32"/>
+<foreignObject x="-9.26964" y="-9.26872" width="105.691" height="105.691"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(8.99px);clip-path:url(#bgblur_1_0_759_clip_path);height:100%;width:100%"></div></foreignObject><circle id="left" data-figma-bg-blur-radius="17.9817" cx="43.5759" cy="43.5768" r="34.8638" fill="white"/>
+<path id="Vector" d="M39.5011 33.1591C37.5389 32.0323 35.9481 32.9554 35.9481 35.2194V51.9263C35.9481 54.1925 37.5389 55.1144 39.5011 53.9886L54.0869 45.6141C56.0497 44.4868 56.0497 42.6605 54.0869 41.5335L39.5011 33.1591Z" fill="#111315"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_0_759_clip_path" transform="translate(8.99087 8.99087)"><rect width="87.1595" height="87.1595" rx="43.5798"/>
+</clipPath><clipPath id="bgblur_1_0_759_clip_path" transform="translate(9.26964 9.26872)"><circle cx="43.5759" cy="43.5768" r="34.8638"/>
+</clipPath></defs>
+</svg>
