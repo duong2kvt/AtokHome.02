@@ -28,5 +28,5 @@ test('assets, mobile bounds, manifest and offline navigation',async({page})=>{
  const manifest=await page.request.get('./manifest.webmanifest');expect(manifest.ok()).toBeTruthy();expect((await manifest.json()).display).toBe('standalone');
  await page.evaluate(async()=>{await navigator.serviceWorker.ready;if(!navigator.serviceWorker.controller)await new Promise<void>(resolve=>navigator.serviceWorker.addEventListener('controllerchange',()=>resolve(),{once:true}));});
  await page.screenshot({path:'test-results/home-mobile.png',fullPage:true});
- await page.context().setOffline(true);await page.reload();await expect(page.getByRole('button',{name:'Details: Daily quest',exact:true})).toBeVisible();await page.context().setOffline(false);
+ const offlineErrors:string[]=[];page.on('pageerror',e=>offlineErrors.push(e.message));page.on('console',m=>{if(m.type()==='error')offlineErrors.push(m.text());});await page.context().setOffline(true);await page.reload();console.log('Offline diagnostic',JSON.stringify({url:page.url(),body:(await page.locator('body').innerText()).slice(0,1200),errors:offlineErrors}));await expect(page.getByRole('button',{name:'Details: Daily quest',exact:true})).toBeVisible();await page.context().setOffline(false);
 });
