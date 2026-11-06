@@ -1,0 +1,10 @@
+import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';
+const base=process.env.PAGES_BASE||'/';
+const entries=fs.readdirSync('dist',{recursive:true,withFileTypes:true}).filter(x=>x.isFile()).map(x=>path.relative('dist',path.join(x.parentPath,x.name)).replaceAll('\\','/')).filter(x=>x!=='sw.js');
+const version=crypto.createHash('sha256').update(entries.map(f=>f+fs.readFileSync(path.join('dist',f)).toString('base64')).join('')).digest('hex').slice(0,14);
+const urls=[base,...entries.map(f=>base+f)];
+fs.writeFileSync('dist/sw.js',`const CACHE='atok-home02-${version}';const BASE=${JSON.stringify(base)};const PRECACHE=${JSON.stringify(urls)};
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(PRECACHE)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('atok-home02-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',event=>{if(event.request.method!=='GET'||new URL(event.request.url).origin!==self.location.origin)return;if(event.request.mode==='navigate'){event.respondWith(fetch(event.request).catch(()=>caches.match(BASE+'index.html')));return;}event.respondWith(caches.match(event.request).then(hit=>hit||fetch(event.request)));});`);
+fs.writeFileSync('dist/.nojekyll','');

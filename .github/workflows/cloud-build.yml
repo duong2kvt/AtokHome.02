@@ -1,0 +1,63 @@
+name: Cloud build and deploy PWA
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install locked dependencies or bootstrap lockfile
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+      - name: Download original Figma assets once
+        run: node scripts/materialize-assets.mjs
+      - name: Persist source assets and dependency lockfile
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/assets package-lock.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Persist original design assets and dependency lockfile"
+            git push
+          fi
+      - name: Test flow
+        run: npm test
+      - name: Build installable PWA
+        env:
+          PAGES_BASE: /AtokHome.02/
+        run: npm run build
+      - name: Install browser for cloud verification
+        run: npx playwright install --with-deps chromium
+      - name: Verify mobile flow and offline app
+        run: npm run test:browser
+      - name: Keep browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-browser-evidence
+          path: test-results
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy cloud build
+        id: deployment
+        uses: actions/deploy-pages@v4
