@@ -21,7 +21,7 @@ The original keyframe values, times, easing and node IDs are retained in src/des
 - Home: 2-second token edge and face scale loop.
 - Quest reward: 5-second coordinated timeline. Quest card enters from Y -200; fill translates X -200→0; 0/3,1/3,2/3,3/3 swap at source times; two strikethrough lines scale from their left edge; check enters from Y -40 with source easing; reward text uses the WORD/LEFT_RIGHT two-group preset starting 2560.075ms, per-group 909.091ms with 90.909ms stagger, bottom 60px, scale70%, opacity0, spring mass1/stiffness100/damping10.
 - Return list: 4-second progress, count, strike and check sequence.
-Reward tracks play once in the product flow instead of endlessly repeating the showcase; no repeated reward is granted. Motion on and reduced-motion final states are both supported. Collect during the 5-second reward sequence is guarded until the sequence finishes.
+Reward tracks play once in the product flow instead of endlessly repeating the showcase; no repeated reward is granted. Motion on and reduced-motion final states are both supported. Collect remains immediately available, matching the prototype navigation action; animated counter layers are decorative for screen readers.
 
 ## Simulation boundaries
 The visible personal quest starts at 0/3 but the supplied prototype jumps from one Watch ad to a completed-quest reward. This prototype reproduces that path and settles the fixture to 3/3 on mission Collect. This is not a production claim that a single advertisement completes three real missions.

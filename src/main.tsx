@@ -34,15 +34,14 @@ function QuestCard({quest,done,onGo}:{quest:Quest;done:boolean;onGo:()=>void}){
  </article>;
 }
 function App(){
- const [state,setState]=useState(readState),[busy,setBusy]=useState(false),[fail,setFail]=useState(false),[toast,setToast]=useState(''),[completionMotion,setCompletionMotion]=useState(false),[rewardReady,setRewardReady]=useState(false),[installPrompt,setInstallPrompt]=useState<any>(null),[online,setOnline]=useState(navigator.onLine);
+ const [state,setState]=useState(readState),[busy,setBusy]=useState(false),[fail,setFail]=useState(false),[toast,setToast]=useState(''),[completionMotion,setCompletionMotion]=useState(false),[installPrompt,setInstallPrompt]=useState<any>(null),[online,setOnline]=useState(navigator.onLine);
  const viewport=useRef<HTMLDivElement>(null),dialog=useRef<HTMLDialogElement>(null),request=useRef<AbortController|null>(null),locked=useRef(false);
- const reduce=useReducedMotion(),review=new URLSearchParams(location.search).has('review');
+ const review=new URLSearchParams(location.search).has('review');
  const send=useCallback((event:any)=>setState((s:any)=>transition(s,event)),[]);
  useEffect(()=>{try{localStorage.setItem('atok-quests-pwa-v2',JSON.stringify(state));}catch{setToast('Your browser could not save this preview.');}},[state]);
  useEffect(()=>{const handler=(e:any)=>{e.preventDefault();setInstallPrompt(e);};const connection=()=>setOnline(navigator.onLine);window.addEventListener('beforeinstallprompt',handler);window.addEventListener('online',connection);window.addEventListener('offline',connection);return()=>{request.current?.abort();window.removeEventListener('beforeinstallprompt',handler);window.removeEventListener('online',connection);window.removeEventListener('offline',connection);};},[]);
  useEffect(()=>{if(!toast)return;const id=setTimeout(()=>setToast(''),4000);return()=>clearTimeout(id);},[toast]);
  useEffect(()=>{viewport.current?.scrollTo({top:0});if(state.screen==='ad')dialog.current?.showModal();else dialog.current?.close();},[state.screen]);
- useEffect(()=>{setRewardReady(state.screen!=='quest-reward'||!!reduce);if(state.screen!=='quest-reward')return;const t=setTimeout(()=>setRewardReady(true),reduce?0:5000);return()=>clearTimeout(t);},[state.screen,reduce]);
  function closeSheet(){request.current?.abort();locked.current=false;setBusy(false);send({type:'CANCEL_AD'});}
  async function watchAd(){
  if(locked.current)return;locked.current=true;setBusy(true);request.current=new AbortController();const signal=request.current.signal;
@@ -64,7 +63,7 @@ function App(){
  <div className="home-indicator" aria-hidden/>
  </>}
  {state.screen==='mission-reward'&&<div className="reward-screen"><MissionReward onCollect={()=>send({type:'COLLECT_MISSION'})}/></div>}
- {state.screen==='quest-reward'&&<div className="reward-screen" aria-busy={!rewardReady}><QuestReward onCollect={()=>{if(!rewardReady)return;setCompletionMotion(true);send({type:'COLLECT_QUEST'});}}/></div>}
+ {state.screen==='quest-reward'&&<div className="reward-screen"><QuestReward onCollect={()=>{setCompletionMotion(true);send({type:'COLLECT_QUEST'});}}/></div>}
  <dialog ref={dialog} className="ad-dialog" aria-label="Personal mission" onCancel={e=>{e.preventDefault();closeSheet();}}><AdSheet onWatch={watchAd} onCancel={closeSheet}/>{toast&&<div className="toast" role="alert">{toast}</div>}{busy&&<div className="verification-overlay" role="status">Verifying preview completion…</div>}</dialog>
  {toast&&state.screen!=='ad'&&<div className="toast" role="status">{toast}</div>}
  </main>

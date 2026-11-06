@@ -3,7 +3,7 @@ import {motion,useReducedMotion} from 'motion/react';
 import {nodeMotion} from './motion-data';
 export function Animated({as='div',sourceId,style,...rest}:any){
  const reduce=useReducedMotion(); const C=(motion as any)[as]; const data=nodeMotion[sourceId]??{};
- return <C {...data} {...rest} style={{...data.style,...style}} initial={reduce?false:data.initial} animate={reduce?undefined:data.animate}/>;
+ return <C {...data} {...rest} aria-hidden={['2072:42315','2072:42319','2072:42324','2060:67671','2060:67676','2060:67681'].includes(sourceId)?true:rest['aria-hidden']} style={{...data.style,...style}} initial={reduce?false:data.initial} animate={reduce?undefined:data.animate}/>;
 }
 export function RewardAmount({children,...props}:any){
  const reduce=useReducedMotion();
